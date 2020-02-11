@@ -1,0 +1,43 @@
+---
+
+  - name: Uninstalling chatbot software
+
+    hosts: '{{ hosts2manage | default("managedhosts") }}'
+
+    become: yes
+    become_user: root
+
+    gather_facts: no
+    
+    tasks:
+
+    - name: removing the software
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop: 
+        - /home/chatbot/*
+        - /etc/systemd/system/ansibleChatbotEngine.service
+        - /etc/systemd/system/ansibleChatbotWebInterface.service
+
+    - name: Closing ports
+      firewalld:
+        port: "{{ item }}"
+        permanent: yes
+        state: disabled
+      loop:
+        - 8080/tcp  
+        - 9095/tcp  
+      notify: "restart firewalld"
+      ignore_errors: yes
+
+        
+    handlers:
+
+    - name: restarting the firewalld
+      service:
+        name: firewalld
+        state: restarted
+      listen: "restart firewalld"  
+      ignore_errors: yes
+
