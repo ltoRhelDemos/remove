@@ -1,0 +1,21 @@
+--- 
+
+  - name: Chatbot Removal Playbook 
+    gather_facts: no
+
+    become: yes
+    become_user: root 
+    
+    hosts: "all"
+
+  - name: Importing chatbotStopServices
+    import_playbook: chatbotStopServices.yml hosts2manage='{{ h2m | default("aws") }}'
+
+  - name: Importing chatbotUninstallSoftware 
+    import_playbook: chatbotUninstallSoftware.yml hosts2manage='{{ h2m | default("aws") }}'
+
+  - name: Importing chatbotUninstallPythonDependencies 
+    import_playbook: chatbotUninstallPythonDependencies.yml hosts2manage='{{ h2m | default("aws") }}'
+    
+  - name: Importing chatbotRemoveFilesystemAWS
+    import_playbook: chatbotRemoveFilesystemAWS.yml hosts2manage='{{ h2m | default("aws") }}'
