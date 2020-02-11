@@ -1,0 +1,28 @@
+---
+
+  - name: Stopping chatbot services
+
+    hosts: '{{ hosts2manage | default("managedhosts") }}'
+
+    become: yes
+    become_user: root
+
+    gather_facts: no
+
+    tasks:
+
+      - name: disabling ansibleChatbotEngine service
+        systemd:
+          name: ansibleChatbotEngine
+          state: stopped
+          enabled: no
+        ignore_errors: yes  
+
+      - name: disabling ansibleChatbotWebInterface service
+        systemd:
+          name: ansibleChatbotWebInterface
+          state: stopped
+          enabled: no
+        ignore_errors: yes  
+
+
