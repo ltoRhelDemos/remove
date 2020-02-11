@@ -17,5 +17,5 @@
   - name: Importing chatbotUninstallPythonDependencies 
     import_playbook: chatbotUninstallPythonDependencies.yml hosts2manage='{{ h2m | default("aws") }}'
     
-  - name: Importing chatbotRemoveFilesystemAWS
-    import_playbook: chatbotRemoveFilesystemAWS.yml hosts2manage='{{ h2m | default("aws") }}'
+  - name: Importing chatbotRemoveFilesystem
+    import_playbook: chatbotRemoveFilesystem.yml hosts2manage='{{ h2m | default("aws") }}'
